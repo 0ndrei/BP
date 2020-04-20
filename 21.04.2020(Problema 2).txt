@@ -1,0 +1,11 @@
+Ex 2.Scrieti o functie care sa verifice daca un arbore binar este un arbore binar de cautare.
+
+Type
+  Tree = ^Nod; 
+  Nod = Record;
+  Inf: integer; 
+  As,Ad : Tree;
+end;
+
+Function InserareABC ( var Abc: Tree; X: integer): integer;
+Begin
