@@ -1,0 +1,23 @@
+Ex 1:Scrieti o functie care sa creeze un arbore binar de cautare perfect echilibrat.
+
+Type
+  Tree = ^Nod; 
+  Nod = Record;
+  Inf: integer; 
+  As,Ad : Tree;
+end;
+
+Function InserareABC ( var Abc: Tree; X: integer): integer;
+Begin
+  If Abc = Nil then
+  New(Abc);
+  Abc^.inf:= X;
+  Abc^.As:= Nil;
+  Abc^.Ad:= Nil;
+else
+  If X < Abc^.inf then
+  InserareABC(Abc^.As, X);
+else 
+  InserareABC(Abc^.Ad, X);
+end;
+end.
