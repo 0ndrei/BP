@@ -7,5 +7,19 @@ Type
   As,Ad : Tree;
 end;
 
-Function InserareABC ( var Abc: Tree; X: integer): integer;
+Function VerificaABC (Ab: Tree): boolean;
 Begin
+    If Ab=Nil then 
+      VerificaABC:=true
+    else
+     If (Ab^.left<>Nil) and (Ab^.Inf<Ab^.left^.inf) then
+        VerificaABC:=false
+      else
+     If (Ab^.right<>Nil) and (Ab^.Inf>Ab^.right^.inf) then
+         VerificaABC:=false
+      else
+     If (Ab^.right<>Nil) and (Ab^.left<>Nil) and (Ab^.right^.inf<Ab^.left^.inf) then
+         VerificaABC:=false
+      else
+        VerificaABC:= VerificaABC(Ab^.left) and VerificaABC(Ab^.right)
+End;
