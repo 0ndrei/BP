@@ -1,0 +1,249 @@
+Problema nr.1
+O singură stație de servire trebuie să satisfacă cererile a n clienți. Timpul de servire necesar fiecărui client este cunoscut în prealabil: pentru
+clientul i este necesar un timp ti, 1≤ i≤ n. Dacă dorim să minimizăm timpul total de așteptare atunci:
+a) selectăm întotdeauna clientul cu timpul maxim de servire din mulțimea de clienți rămasă;
+b) selectăm întotdeauna clientul cu timpul minimde servire din mulțimea de clienți rămasă.
+
+
+Timpul total de așteptare este egal cu suma timpului de așteptare a n clienti.
+Avem urm[torul exemplu: la statie simultan au ajuns 3 clienti. Duratele de asteptare este prezentat în tabelul următor:
+
+ Clientul		Durata de asteptare
+  1			60 min
+  2			10 min
+  3			30 min
+
+Clientul care va fi servit primul nu va aștepta deloc, al doilea va aștepta atât cât durează servirea primului pacient, iar al
+treilea va aștepta atât cât durează servirea pacienților precedenți.
+
+Ordinea pacienților 		Timpul total de așteptare
+  1 2 3 			0+60+(60+10)= 130
+  1 3 2 			0+60+(60+30)= 150
+  2 3 1 			0+10+(10+30)= 50
+  2 1 3 			0+10+(10+60)= 80
+
+Se observă că timpul total minim de așteptare se obține în cazul servirii clientilor în ordinea crescătoare a duratelor deservirii. 
+La fiecare pas se va servi clientul a cărui durată de deservire este minimă. Intuitiv este evident că metoda Greedy va determina o soluție optimă.
+
+• Se consideră soluția S inițial vidă;
+• Se sortează elementele din A în ordinea
+descreșterii corespunderii criteriului. Se
+obține mulțimea ordonată A1,A2,…An;
+• Se adaugă consecutiv în S elementele din A
+atât timp cât nu se încalcă restricția R.
+
+
+Type
+Client= Record;
+  nume: String[20];
+  durata: Natural;
+End;
+  Tp = Array[1..10] of Client;
+Var
+  P: Tp;
+  K, I_Min, Total: Natural
+  Min: Client;
+
+For K:=1 To 10 Step 1
+  ReadString(P[K].Nume);
+  ReadNat(P[K].Durata);
+End;
+
+		{Ordonarea pacienților în ordine crescătoare timpului de deservire}
+For K:=1 To 9 Step 1
+  Min:=P[K];
+  I_min:= K;
+  For X:=K+1 To 10 Step 1
+    If P[X].Durata < Min.Durata Then
+    Min:= P[X];
+    I_Min:=X;
+  End;
+End;
+  P[I_Min]:= P[K];
+  P[K]:= Min;
+End;
+
+Total:=0;
+For X:=1 To 10 Step 1
+  WriteString(P[X].Nume);
+End;
+  For X:=1 To N Step 1
+  For K:=1 To X-1 Step 1
+  Total:= Total + P[K].Durata;
+End;
+ WriteNat(Total);
+
+
+
+
+Problema nr.2
+Managerul artistic al unui festival trebuie să selecteze o mulțime cât mai amplă de spectacole care pot fi jucate în singură sală pe
+care o are la dispoziție. Știind că i s-au propus 8 spectacole și pentru fiecare spectacol i-a fost anunțat intervalul în care se va desfășura:
+1) [10, 15) ; 2) [2, 4); 3) [7, 9);
+4) [21, 23); 5) [10, 12); 6) [12, 15);
+7) [7, 8); 8) [20, 24);
+Care spectacole trebuie selectate pentru a permite spectatorilor să vizioneze un număr cât mai mare de spectacole?
+
+	Problema spectacolelor
+• mulțimea A este formată din cele n spectacole;
+• fiecare spectacol are un interval de timp [a,b],
+(a<b) și un număr de ordine nr;
+• două spectacole i și j sunt compatibile dacă
+intervalele lor de ocupare ([ai,bi], [aj,bj]) sunt
+disjuncte (bi<aj sau bj<ai);
+• se sortează spectacolele crescător după ora de
+încheiere a spectacolului;
+• se afișează spectacolele pentru care ora de început
+a spectacolului i este mai mare sau egală cu ora de
+sfârșit a ultimului spectacol programat.
+
+ P1. Ordonăm spectacolele crescător după ora terminării lor.
+ P2. Selectăm inițial primul spectacol (deci cel care se termină cel mai devreme).
+ P3. La fiecare pas selectăm primul spectacol neselectat, care nu se suprapune cu cele deja selectate (deci cel care începe după ce s-a terminat
+ultimul spectacol selectat).
+ P4. Dacă nu se mai pot face alegeri, algoritmul se termină. Altfel, se selectează spectacolul găsit și se reia algoritmul de la pasul P3.
+
+   Initial:		    Sortam:
+1) [10, 15);		2) [2, 4);                         Spectacolele selectate sunt: 2, 7, 5, 6, 4
+2) [2, 4);		7) [7, 8);
+3) [7, 9);		3) [7, 9);
+4) [21, 23);		5) [10, 12);
+5) [10, 12);		1) [10, 15);
+6) [12, 15);		6) [12, 15);
+7) [7, 8);		4) [21, 23);
+8) [20, 24);		8) [20, 24);
+
+Type
+Vector = array[1..1000] of integer;
+Var
+  inceput, sfirsit, Nr: vector;
+  i, n, h, m, sort, t, ultim: integer;
+Begin
+  WriteString('n = ');
+  ReadInt(n);
+  WriteString('Introduceti inceputul si sfarsitul spectacolelor');
+
+		{ Transformarea timpului în minute }
+  For i:=1 to n step 1
+  nr[i]:=i;
+  WritString('inceput ',i,' = ');
+  ReadInt(h,m);
+    inceput[i]:=h*60+m;
+    WriteString('sfirsit ',i,' = ');
+    ReadInt(h,m);
+    sfirsit[i]:=h*60+m;
+ end;
+
+		{ Ordonarea spectacolelor crescător după ora de final }
+ Repeat
+  sort:=0;
+  For i:=1 to n-1 step 1;
+    If Sfirsit[nr[i]]>Sfirsit[nr[i+1]] then
+    t:= Nr[i];
+    Nr[i]:= Nr[i+1];
+    Nr[i+1]:= t;
+    sort:=1;
+  end;
+end;
+Until sort=0;
+
+WriteString('Spectacolele selectate sunt:')
+  ultim:=1
+  WriteInt(nr[ultim])
+  For i:=2 to n step 1
+    If Inceput[nr[i]]>=Sfirsit[nr[ultim]] then
+    WriteInt(nr[i])
+    ultim:=i
+   end;
+  end;
+End.
+
+
+
+
+
+
+		Problema 3 
+3. Se consideră că trebuie transportate cu ajutorul unui rucsac de capacitate 13 kg, obiecte cu greutățile 8kg, 6kg și 3kg. Pentru fiecare kg
+transportat câștigul obținut este 16 lei, 24 lei și 15 lei. Știind că obiectele se pot încarcă parțial în sac, atunci soluția optimă este?
+Rezolvare:
+Eficiență - 5(3), 4(2), 2(1)
+Câștigul – 15+24+8 = 47
+
+Problema poate fi transformată în 2 probleme distincte:
+• problema fracționară a rucsacului (obiectele pot fi tăiate);
+• problema discretă a rucsacului (obiectele nu pot fi tăiate).
+
+• În varianta discretă vectorul soluție are n componente și fiecare x[k] poate fi 1 sau 0 după cum obiectul k a fost sau nu selectat.
+• Un algoritm Greedy ordonează obiectele după valoarea lor unitară (după raportul c[i]/g[i]) și verifică fiecare obiect din această listă de
+candidați dacă mai are loc sau în rucsac.
+• Pentru problema fracționară metoda Greedy conduce sigur la soluția optimă, dar pentru varianta discretă nu este garantată soluția optimă.
+
+	Exista 3 obiecte, capacitatea rucsacului G=13;
+Numar obiecte	1	2	3
+Valoare 	16	24	15
+Greutate	8	6	3
+
+	Valoarea pe unitate de greutate
+Valoare/
+greutate	2	4	5
+
+Valoare/
+greutate	2(1)	4(2)	5(3)
+
+• Pasul 1. Se alege obiectul 2 (are raportul valoare/greutate maxim). Se calculează G_partial=6 şi Câştig_parţial=24.
+• Pasul 2. Se alege obiectul 3 (are raportul valoare/greutate maxim între obiectele nealese). Se calculează G_parţial=6+3 şi Câştig_parţial= 24+8.
+• Pasul 3. Se alege obiectul 1, care se „taie”. Este necesar doar în cantitatea 1, deci câștigul în urma alegerii lui va fi de 2, G_parţial=15 şi
+Câştig_parţial= 47.
+
+Var
+  E, C, G: array[1..50] of real;
+  Nr: array[1..50] of integer;
+  n, i, sort, r: integer;
+  Cfin, Gmax, p, t: real;
+Begin
+  WriteString('n = '); 
+  ReadInt(n);
+  WriteString('Gmax = '); 
+  ReadReal(Gmax);
+  WriteStgring('Castigul si greutatea pentru fiecare obiect');
+  For i:=1 to n step 1
+    ReadReal(C[i]); ReadReal(G[i]);
+end;
+
+For i:=1 to n step 1
+  E[i]:=C[i]/G[i]; Nr[i]:=i
+end;
+		{Ordonarea obiect. descresc. dupa castigul unitar}
+Repeat
+sort:=0;
+  For i:=1 to n-1 step 1
+  If E[i]<E[i+1] then
+  t:= G[i]; G[i]:=G[i+1]; G[i+1]:=t;
+  t:= C[i]; C[i]:=C[i+1]; C[i+1]:=t;
+  t:= E[i]; E[i]:=E[i+1]; E[i+1]:=t;
+  t:= Nr[i]; Nr[i]:=Nr[i+1]; Nr[i+1]:=t;
+  sort:=1;
+ end; 
+end;
+Until sort=0;
+
+Cfin:=0;
+  i:=1;
+  while (Gmax>0) and (i<=n) do
+    If G[i]<=Gmax then
+    WriteInt(Nr[i],' ')
+    Gmax:=Gmax-G[i]; 
+    Cfin:=Cfin+C[i];
+  else
+    p:=Gmax/G[i]               
+    WriteInt(Nr[i]);
+    WriteReal(p);
+    Cfin:=Cfin+C[i]*p; 
+    Gmax:=0;
+  end;
+  i:=i+1;
+end;
+  WriteString('Castigul final = ');
+  WriteReal(Cfin);
+End.
