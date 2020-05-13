@@ -58,12 +58,3 @@ begin
   readln;
 end.
 
-
-
-
-9. În două fișiere text F1.IN și F2.IN se găsesc 2 mulțimi A și respectiv B cu elemente
-numere naturale, separate prin spațiu.
-a) Să se creeze câte o listă liniară simplu înlănțuită pentru memorarea elementelor din
-fiecare dintre cele 2 mulțimi.
-b) Să se creeze o listă simplu înlănțuită care se memoreze reuniunea celor 2 mulțimi.
-c) Să se creeze o listă simplu înlănțuită care se memoreze intersecția celor 2 mulțimi.
