@@ -1,0 +1,69 @@
+LUCRAREA DE LABORATOR №3
+STRUCTURI DINAMICE DE DATE. LISTE LINIARE
+
+5. Sunt date șiruri de caractere finite alcătuite din paranteze: ( ), { }, [ ]. Șirul este
+considerat corect, dacă el este format conform următoarelor reguli:
+a. șirul vid este corect;
+b. dacă А este un șir corect, atunci (А), [A], {A} – șiruri corecte;
+c. dacă А și В – șiruri corecte, atunci АВ – șir corect.
+Să se elaboreze un program care verifică dacă șirul de caractere citit de la tastatură
+este corect. Exemplu: șirurile (), [], {}, [()], (({})), ()[]){}({})) – corecte, iar șirurile [), ((], {{
+– incorecte.
+
+ Program p5;
+type AdresaCelula=^Celula;
+     Celula=record
+                  Info : char;
+                  Prec : AdresaCelula;
+            end;
+var S : AdresaCelula; { adresa virfului }
+    p : string;   { sir format numai din paranteze }
+
+procedure pune(c:char);
+var r:AdresaCelula;
+begin
+  new(r); r^.info:=c; r^.prec:=s; s:=r;
+end; { pune }
+
+procedure scoate;
+var r:AdresaCelula;
+begin
+  r:=s; s:=s^.prec; dispose(r);
+end; { scoate }
+
+function corect(t:string):boolean;
+var   i: integer;   G: 0..1;
+begin
+  G:=0;  { din start nu s-a depistat eroare }
+  i:=1;
+ while (i<=length(t)) and (G=0) do
+   begin
+     case t[i] of
+       '(','[','{': pune(t[i]);
+       ')': if (S<>NIL)AND(s^.info='(') then scoate ELSE G:=1;
+       ']': if (S<>NIL)AND(s^.info='[') then scoate ELSE G:=1;
+       '}': if (S<>NIL)AND(s^.info='{') then scoate ELSE G:=1;
+       else G:=1;  { in caz cand caracterul nu e paranteza } 
+     end;
+     i:=i+1;
+   end;
+    corect:= (s=nil)  AND (G=0);
+end;  { corect }
+
+begin
+  write(' dati sirul de paranteze: '); readln(p);
+  s:=nil;  { din start stiva este vida }
+  if corect(p) then writeln(' sir corect...')
+  else writeln(' sir incorect...');
+  readln;
+end.
+
+
+
+
+9. În două fișiere text F1.IN și F2.IN se găsesc 2 mulțimi A și respectiv B cu elemente
+numere naturale, separate prin spațiu.
+a) Să se creeze câte o listă liniară simplu înlănțuită pentru memorarea elementelor din
+fiecare dintre cele 2 mulțimi.
+b) Să se creeze o listă simplu înlănțuită care se memoreze reuniunea celor 2 mulțimi.
+c) Să se creeze o listă simplu înlănțuită care se memoreze intersecția celor 2 mulțimi.

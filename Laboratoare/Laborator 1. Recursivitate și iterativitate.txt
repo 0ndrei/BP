@@ -1,0 +1,14 @@
+LUCRAREA DE LABORATOR №1
+RECURSIVITATE ȘI ITERATIVITATE
+
+5. De la tastatură se introduc două numere naturale N și X. Să se elaboreze un program care determină numărul de apariții a cifrei X în numărul natural N.
+
+
+
+11.De la tastatură se introduce un număr natural N. Să se elaboreze un program care
+afișează triunghiul de numere de mai jos.
+1
+1 2
+………………..
+1 2 3 ……….. n-1
+1 2 3 ……….. n-1 n

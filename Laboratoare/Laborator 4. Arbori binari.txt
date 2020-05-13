@@ -1,0 +1,28 @@
+LUCRAREA DE LABORATOR №4
+STRUCTURI DINAMICE DE DATE. ARBORI
+
+5. Pentru evidența elevilor din clasă, se păstrează următoarele informații (utilizând
+arborele binar de căutare): numărul de ordine din registru, numele elevului, mediile
+semestriale și media anuală la disciplina informatică. Să se elaboreze un program care să
+realizeze următoarele:
+a. Adăugarea unui nou elev;
+b. Eliminarea unui elev;
+c. Modificarea mediei anuale a unui elev;
+d. Căutarea unui elev după nume;
+e. Afișarea elevilor cu mediile semestriale cuprinse între două valori care se citesc
+de la tastatură.
+
+
+
+
+
+4. Pentru fiecare articol dintr-o magazie, se păstrează următoarele informații (utilizând
+arborele binar de căutare): codul articolului (este unic pentru fiecare articol), denumirea
+articolului, unitatea de măsură și cantitatea din stoc. Să se elaboreze un program care să
+realizeze următoarele:
+a. Adăugarea unui nou articol;
+b. Ștergerea unui articol;
+c. Introducerea de la tastatură a cantității intrate, dintr-un articol precizat prin cod,
+și actualizarea stocului;
+d. Afișarea articolelor care au stocul mai mare de 100;
+e. Afișarea în ordinea codurilor a stocurilor din fiecare articol.

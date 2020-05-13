@@ -1,0 +1,231 @@
+LUCRAREA DE LABORATOR №2
+STRUCTURI DINAMICE DE DATE. LISTE SIMPLU ÎNLĂNȚUITE
+
+
+5. Creați două liste liniare de numere întregi introduse de la tastatură până la indicarea numărului 0. Să se verifice, dacă listele sunt identice.
+
+program lab2_5;
+type 
+lista=record
+    inf:integer;
+    next:^lista;
+    end;
+var l1,l2,m1,m2:^lista;
+    x, y:^lista;
+    n1,n2,nr_elem1,nr_elem2:integer;
+    cond1:boolean;
+    
+begin
+{Crearea listei 1 vide}
+l1:=nil;
+l2:=nil;
+nr_elem1:=0;
+writeln('Introduce?i elementele listei 1: ');
+{Completarea listei 1}
+readln(n1);
+new(x);
+x^.inf:=n1;
+if l1=nil then begin
+l1:=x;
+l2:=x;
+nr_elem1:=1;
+end;
+while (n1<>0) do begin
+  readln(n1);
+  new(x);
+  x^.inf:=n1;
+  l2^.next:=x;
+  l2:=x;
+  nr_elem1:=nr_elem1+1;
+end;
+
+{Crearea listei 2 vide}
+m1:=nil;
+m2:=nil;
+nr_elem2:=0;
+writeln('Introduce?i elementele listei 2: ');
+{Completarea listei 2}
+readln(n2);
+new(y);
+y^.inf:=n2;
+if m1=nil then begin
+m1:=y;
+m2:=y;
+nr_elem2:=1;
+end;
+while (n2<>0) do begin
+  readln(n2);
+  new(y);
+  y^.inf:=n2;
+  m2^.next:=y;
+  m2:=y;
+  nr_elem2:=nr_elem2+1;
+end;
+
+{Afi?area listei 1}
+x:=l1;
+writeln('Lista 1 de numere este: ');
+while x <> nil do begin
+  write(' ',x^.inf);
+  x:=x^.next;
+end;
+writeln;
+
+{Afi?area listei 2}
+y:=m1;
+writeln('Lista 2 de numere este: ');
+while y <> nil do begin
+  write(' ',y^.inf);
+  y:=y^.next;
+end;
+writeln;
+
+{Compararea listelor}
+x:=l1;
+y:=m1;
+if nr_elem1<>nr_elem2 then writeln('Listele nu sunt identice.') 
+else begin 
+cond1:=false;
+while (x<>Nil) and (not cond1) do begin 
+  if x^.inf<>y^.inf then  cond1:=true
+  else 
+  x:=x^.next;
+  y:=y^.next;
+  end;
+  if cond1 then 
+     writeln('Listele nu sunt identice.')
+  else
+     writeln('Listele sunt identice.')
+end;
+
+end.
+
+
+13. Creați listă liniară simplu înlănțuită Student care conține următoarea informație:Numele studentului, Anul de studii, Grupa, Nota medie. Să se afișeze lista studenților în ordine alfabetică a numelui cu nota medie mai mare de 8.
+
+program lab2_13;
+type 
+  info=record
+    nume:string[25];
+    grupa: string[10];
+    an:integer;
+    med:real;
+  end;
+  Lista = ^Student;    
+  student=record
+    inf:info;
+    next:Lista;
+  end;
+var s1, s2, x: Lista;
+    s11, s22, x1, x2, poz: Lista;
+    p:info;
+    n, i, j, sum:integer;
+    m:string[25];
+
+function Pozitia(Prim, Ultim: Lista; m:string[25]):lista;
+var P: Lista;
+begin
+  P:=Prim;
+  If (m<P^.inf.nume) then
+     pozitia:=Prim
+  else
+  If (m>P^.inf.nume) and (P=Ultim) then
+     pozitia:=Ultim
+  else  
+  begin
+    while (P^.next<>nil) and (P^.next^.inf.nume<m) do
+      P:=P^.next; 
+    Pozitia:=P;
+  end;
+ 
+end;
+
+procedure Adaugare(var Prim: Lista; Var Ultim: Lista; P, Q: Lista);
+begin
+  If (P=Prim) and (Q^.inf.nume<P^.inf.nume) then
+  begin
+    Q^.next:=Prim;
+    Prim:=Q;
+  end
+  else
+  If P=Ultim then
+  begin
+    Ultim^.next:=Q;
+    Ultim:=Q;
+  end
+  else
+  begin 
+    Q^.next:=P^.next;
+    P^.next:=Q;
+  end;
+end;
+
+begin
+  writeln('Introduce?i numarul de studen?i: ');
+  readln(n);
+  s1:=nil;
+  s2:=nil;
+  writeln;
+  writeln('----------Introduce?i informa?ia despre studen?i----------');
+  for i:=1 to n do begin
+    write('Numele studentului ',i,': ');
+    readln(p.nume);
+    write('Grupa: ');
+    readln(p.grupa);
+    write('Anul de studii: ');
+    readln(p.an);
+    write('Media: ');
+    readln(p.med);
+    new(x1);
+    x1^.inf:=p;
+    if s1=nil then begin
+      x1^.next:=nil;
+      s1:=x1;
+      s2:=x1;
+    end
+    else begin
+      s2^.next:=x1;
+      s2:=x1;
+    end;
+    writeln;
+  end;
+ {Afi?area listei ini?iale a studen?ilor}
+ writeln('Lista ini?iala a studen?ilor: ');
+  x:=s1;
+  while x<>Nil do
+  begin
+    writeln(x^.inf.nume,' ',x^.inf.med:2:2);
+    x:=x^.next;
+  end;
+  writeln;
+ 
+ {Crearea noii liste a studen?ilor}
+  s11:=nil;
+  s22:=nil;
+  x:=s1;
+  while x<>nil do begin
+    new(x2);
+    x2^.inf:=x^.inf;
+    if s11=nil then begin
+      x2^.next:=nil;
+      s11:=x2;
+      s22:=x2;
+    end
+    else
+    begin
+      m:=x2^.inf.nume;
+      poz:=Pozitia(s11,s22,m);
+      Adaugare(s11,s22,poz,x2);
+    end;
+    x:=x^.next;
+  end;
+{Afi?area listei finale a studen?ilor}
+  writeln('Lista studen?ilor cu media>8 aranjata conform alfabetului: ');
+  x:=s11;
+  while x<>nil do begin
+    if x^.inf.med>8 then
+    writeln(x^.inf.nume,' ',x^.inf.med:2:2);
+    x:=x^.next;
+  end;
+  
+end.
