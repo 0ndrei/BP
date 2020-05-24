@@ -16,3 +16,120 @@ de la tastatură.
 
 
 
+Program Agenda;
+Type
+Persoana = Record
+nume: String[15]; 
+numar: String[15];
+mail: String[15];
+end;
+Nod = Record
+inf: Persoana;
+st, dr: ^Nod;
+end;
+Var P: Persoana;
+Agenda: ^Nod;
+S:String[15];
+Op: Char;
+Procedure InserareArb (Var Ab:^Nod; X:Persoana);
+Begin
+if Ab = Nil then
+begin
+New(Ab);
+Ab^.inf:= X;
+Ab^.st:= Nil; Ab^.dr:= Nil;
+end
+else
+if X.Nume < Abc^.Inf.Nume then
+InserareArb(Ab^.st,X)
+else
+InserareArb(Ab^.dr,X)
+End;
+Procedure Adaugare;
+Var P: Persoana;
+Begin
+Write('Nume: '); Readln(P.Nume);
+Write('Numar de telefon: '); Readln(P.Numar);
+Write('E-mail: '); Readln(P.Mail);
+InserareArb(Agenda,P);
+End;
+Procedure Afisare (Ab: ^Nod);
+Begin
+if Ab <> Nil then
+begin
+Afisare(Ab^.st);
+Writeln(Ab^.Inf.Nume);
+Writeln(Ab^.Inf.Numar);
+Writeln('------------');
+Afisare(Ab^.dr);
+end;
+End;
+procedure cmmd (Var c,f:^Nod);
+{ se cauta in subarborele drept al nodului curent (c) primul nod care nu are succesor drept (f)}
+Var p:^Nod;
+Begin
+if f^.dr<>Nil then
+cmmd(c, f^.dr)
+else
+begin
+c^.inf:=f^.inf;
+p:=f; f:=f^.st;
+dispose(p);
+end;
+End;
+procedure Eliminare(Var Ab:^Nod; X:String[15]);
+Var p:^Nod;
+Begin
+if Ab<>Nil then
+if Ab^.inf.nume=X then
+if (Ab^.st=Nil)and (Ab^.dr=Nil) then
+begin
+dispose(Ab); Ab:=Nil;
+end
+else
+if Ab^.st=Nil then
+begin
+p:=Ab^.dr; dispose(Ab);
+Ab:=p;
+end
+else
+if Ab^.dr=Nil then
+begin
+p:=Ab^.st; dispose(Ab);
+Ab:=p;s
+end
+else
+cmmd(Ab,Ab^.st)
+if X<Ab^.inf.nume then Eliminare(Ab^.st,X)
+else Eliminare(Ab^.dr,X)
+else Write('Numele nu exista');
+End;
+procedure Cautare (Ab: ^Nod; X: String[15]);
+Begin
+if Ab = Nil then Write('Numele nu exista')
+else
+if X = Ab^.inf.Nume then
+Writeln('Persoana ', Ab^.inf.nume,' tel: ', Ab^.inf.numar,' e-mail: ', Ab^.inf.mail)
+else
+if X < Ab^.inf.nume then Cautare(Ab^.st, X)
+else Cautare(Ab^.dr, X)
+End;
+Begin
+Agenda:=Nil;
+Repeat
+Writeln('P – adaugarea persoanei');
+Writeln('L – eliminarea persoanei');
+Writeln('A – afisarea persoanelor');
+Writeln('C – cautarea persoanei');
+Writeln('S – oprire');
+Write('Indica operatia: '); Readln(Op);
+Case Op of
+'P': Adaugare;
+'L': begin Write('Introdu numele persoanei: '); Readln(S); Eliminare(Agenda, S); end;
+'A': Afisare(Agenda);
+'C': begin Write('Introdu numele persoanei: '); Readln(S); Cautare(Agenda, S); end;
+else
+Writeln('Operatie incorecta');
+end;
+Until Op='S';
+End.
